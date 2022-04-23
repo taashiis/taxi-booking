@@ -11,3 +11,16 @@ h1 {
   width: 500px;
   display: inline;
 }
+.half {
+  margin-left: 50px;
+  width: 40%;
+  display: inline-block;
+  padding-left: 50px;
+}
+.lefthalf {
+  margin-left: 50px;
+}
+
+.half input {
+  margin-bottom: 30px;
+}
