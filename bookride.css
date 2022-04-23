@@ -1,0 +1,37 @@
+h1 {
+  padding-top: 50px;
+  text-align: center;
+}
+.update {
+  padding-top: 30px;
+  margin: auto;
+  padding-left: 30px;
+  width: fit-content;
+  /* display: inline; */
+  /* border: 1px solid black; */
+}
+.option1 {
+  display: inline-block;
+  width: 250px;
+  /* border: 1px solid black; */
+}
+.btn {
+  /* border: 1px solid black; */
+  margin: auto;
+  /* transform: translateY(-4px); */
+}
+p {
+  text-align: center;
+  display: inline;
+}
+.form-control {
+  display: inline;
+  margin-bottom: 20px;
+}
+.pay {
+  width: 100%;
+  margin: auto;
+}
+hr {
+  border-top: 2px solid black;
+}
