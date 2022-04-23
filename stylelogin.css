@@ -25,6 +25,10 @@ a {
   width: fit-content;
   margin: auto;
 }
+
+.pic {
+  float: right;
+}
 /* .vh-100 {
   padding-top: 250px;
 } */

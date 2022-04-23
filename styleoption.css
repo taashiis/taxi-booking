@@ -28,3 +28,6 @@ a {
 .vh-100 {
   padding-top: 250px;
 }
+button:hover {
+  transform: scale(1.2);
+}
