@@ -31,3 +31,9 @@ a {
 button:hover {
   transform: scale(1.2);
 }
+.logout {
+  color: white;
+}
+.logout:hover {
+  color: white;
+}
