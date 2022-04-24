@@ -17,39 +17,42 @@
     <link href="ridehistory.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>Search Payment History</h1>
+    <h1>Search Rating History</h1>
     <div class="update">
       <div class="form-outline mb-4 option1">
-        <label class="form-label" for="new value ">Search by: </label>
         <select class="form-select option1" aria-label="Default select example">
-          <option selected>Select option</option>
-          <option value="1">Payment Mode</option>
-          <option value="2">Date</option>
+          <option selected>Select search by</option>
+          <option value="1">1 star</option>
+          <option value="2">2 star</option>
+          <option value="3">3 star</option>
+          <option value="3">4 star</option>
+          <option value="3">5 star</option>
         </select>
       </div>
-      <div class="form-outline mb-4 option1">
-        <label class="form-label" for="new value ">Enter Value : </label>
-        <input id="new value " class="form-control form-control-lg option1" />
-      </div>
-
       <button class="btn btn-primary btn-lg btn-success">Search</button>
     </div>
     <div>
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Payment ID</th>
             <th scope="col">Ride ID</th>
+            <th>date</th>
+            <th scope="col">Pickup location</th>
+            <th scope="col">Drop Location</th>
+            <th scope="col">User ID</th>
             <th scope="col">Amount</th>
-            <th scope="col">Mode</th>
+            <th scope="col">rating</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>home</td>
+            <th scope="row">1</th>
+            <td>22/04/22</td>
             <td>Mark</td>
             <td>Otto</td>
             <td>@mdo</td>
+            <td>hihi</td>
+            <td>5 star</td>
           </tr>
         </tbody>
       </table>
