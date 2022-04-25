@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Ride History</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+    <link href="css/ridehistory.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1>Search Ride History</h1>
+    <form class="update" method="POST" action="/rideHistory" novalidate>
+      <div class="form-outline mb-4 option1">
+        <label class="form-label" for="new value "
+          >Enter Value for pickup :
+        </label>
+        <input id="new value " class="form-control form-control-lg option1" name="pickupLocationUser"/>
+      </div>
+      <div class="form-outline mb-4 option1">
+        <label class="form-label" for="new value "
+          >Enter Value for drop:
+        </label>
+        <input id="new value " class="form-control form-control-lg option1" name="dropLocationUser" />
+      </div>
+      <div class="form-outline mb-4 option1">
+        <label class="form-label" for="new value "
+          >Enter Value for payment mode:
+        </label>
+        <select class="form-select option1" aria-label="Default select example"
+        name="paymentSelection">
+          <option selected>Select</option>
+          <option value="1">online</option>
+          <option value="2">cash</option>
+        </select>
+      </div>
+      <div class="form-outline mb-4 option1">
+        <label class="form-label" for="new value "
+          >Enter Value for car type :
+        </label>
+        <select class="form-select option1" aria-label="Default select example"
+        name="carTypeSelection">
+          <option selected>Select</option>
+          <option value="1">Sedan</option>
+          <option value="2">Auto</option>
+          <option value="3">Pool</option>
+          <option value="4">Mini</option>
+        </select>
+      </div>
+      <div class="form-outline mb-4 option1">
+        <label class="form-label" for="new value "
+          >Enter Value for date:
+        </label>
+        <input
+          id="new value "
+          class="form-control form-control-lg option1"
+          placeholder="dd-mm-yyyy"
+          name="date"
+        />
+      </div>
+      <button class="btn btn-primary btn-lg btn-success">Search</button>
+    </form>
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Ride ID</th>
+            <th scope="col">Pickup location</th>
+            <th scope="col">Drop Location</th>
+            <th scope="col">Driver name</th>
+            <th scope="col">Taxi no</th>
+            <th scope="col">Taxi type</th>
+            <th scope="col">Amount</th>
+            <th scope="col">payment mode</th>
+            <th scope="col">date</th>
+          </tr>
+        </thead>
+        {{#each rows}}
+        <tbody>
+          <tr>
+            <th scope="row">{{this.id}}</th>
+            <td>{{this.pickupLocation}}</td>
+            <td>{{this.dropLocation}}</td>
+            <td>{{this.driverName}}</td>
+            <td>{{this.taxiNo}}</td>
+            <td>{{this.taxiType}}</td>
+            <td>{{this.amount}}</td>
+            <td>{{this.paymentMode}}</td>
+            <td>{{this.date}}</td>
+          </tr>
+        </tbody>
+        {{/each}}
+      </table>
+    </div>
+  </body>
+</html>

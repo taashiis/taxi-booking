@@ -1,0 +1,26 @@
+h1 {
+  padding-top: 50px;
+  text-align: center;
+}
+.update {
+  padding-top: 30px;
+  width: 500px;
+  margin: auto;
+}
+.option1 {
+  width: 500px;
+  display: inline;
+}
+.half {
+  margin-left: 50px;
+  width: 40%;
+  display: inline-block;
+  padding-left: 50px;
+}
+.lefthalf {
+  margin-left: 50px;
+}
+
+.half input {
+  margin-bottom: 30px;
+}
