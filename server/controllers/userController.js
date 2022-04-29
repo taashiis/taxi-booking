@@ -522,17 +522,17 @@ exports.findRideDetail = (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err; // not  connected
     console.log("connected as ID " + connection.threadId);
-    let payment = " ";
+    let payment = "";
     if (paymentSelection == 1) {
       payment = "Online";
     } else if (paymentSelection == 2) {
       payment = "Cash";
     } else {
-      payment = " ";
+      payment = "";
     }
     //user the connection
     connection.query(
-      "SELECT * FROM ride where driverId = ? AND pickupLocation LIKE ? OR dropLocation LIKE ? OR paymentMode LIKE ? OR date LIKE ?",
+      "SELECT * FROM ride where driverId = ? AND pickupLocation LIKE ? AND dropLocation LIKE ? AND paymentMode LIKE ? AND date LIKE ?",
       [
         driverId,
         '%' + pickupLocationDriver + '%',
@@ -1244,7 +1244,7 @@ exports.findRideHistory = (req, res) => {
 
     //user the connection
     connection.query(
-      "SELECT * FROM ride WHERE pickupLocation LIKE ? OR dropLocation LIKE ? OR paymentMode LIKE ? OR taxiType LIKE ? OR date LIKE ? AND userID = ?",
+      "SELECT * FROM ride WHERE pickupLocation LIKE ? AND dropLocation LIKE ? AND paymentMode LIKE ? AND taxiType LIKE ? AND date LIKE ? AND userID = ?",
       [
         
         '%' + pickupLocationUser + '%',
@@ -1402,8 +1402,8 @@ exports.createAddress = (req, res) => {
     else if (addressCard == 1) {
       console.log("title");
       connection.query(
-        "SELECT * FROM address WHERE title LIKE ?",
-        ['%' + searchTerm + '%'],
+        "SELECT * FROM address WHERE title LIKE ? AND userId = ?",
+        ['%' + searchTerm + '%', id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
@@ -1420,8 +1420,8 @@ exports.createAddress = (req, res) => {
     }
     if (addressCard == 2) {
       connection.query(
-        "SELECT * FROM address WHERE locality LIKE ?",
-        ['%' + searchTerm + '%'],
+        "SELECT * FROM address WHERE locality LIKE ? AND userId = ?",
+        ['%' + searchTerm + '%', id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
@@ -1438,8 +1438,8 @@ exports.createAddress = (req, res) => {
     }
     if (addressCard == 3) {
       connection.query(
-        "SELECT * FROM address WHERE city LIKE ?",
-        ['%' + searchTerm + '%'],
+        "SELECT * FROM address WHERE city LIKE ? AND userId = ?",
+        ['%' + searchTerm + '%', id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
@@ -1456,8 +1456,8 @@ exports.createAddress = (req, res) => {
     }
     if (addressCard == 4) {
       connection.query(
-        "SELECT * FROM address WHERE pincode LIKE ?",
-        ['%' + searchTerm + '%'],
+        "SELECT * FROM address WHERE pincode LIKE ? AND userId = ?",
+        ['%' + searchTerm + '%',  id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
@@ -1474,8 +1474,8 @@ exports.createAddress = (req, res) => {
     }
     if (addressCard == 5) {
       connection.query(
-        "SELECT * FROM address WHERE flatNo LIKE ?",
-        ['%' + searchTerm + '%'],
+        "SELECT * FROM address WHERE flatNo LIKE ? AND userId = ?",
+        ['%' + searchTerm + '%', id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();

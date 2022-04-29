@@ -27,8 +27,38 @@ a {
 }
 
 .pic {
-  float: right;
+  /* float: right; */
+  position: absolute;
+  left: 966px;
+  top: 0px;
+
 }
 /* .vh-100 {
   padding-top: 250px;
 } */
+
+.forgotPassword {
+  position: absolute;
+  top: 547px;
+  left: 83px;
+
+}
+
+
+.registerUserSection {
+  position: absolute;
+  top: 624px;
+  left: 83px;
+}
+
+.registerDriverSection {
+  position: absolute;
+  top: 658px;
+  left: 83px;
+}
+
+.loginDriverSection {
+  position: absolute;
+    top: 691px;
+    left: 83px;
+}
