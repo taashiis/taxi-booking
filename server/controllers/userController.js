@@ -465,53 +465,49 @@ exports.loginDriver = (req, res) => {
           pool.getConnection((err, connection) => {
             if (err) throw err; // not  connected
             console.log("connected as ID " + connection.threadId);
-        
+
             //user the connection
-            connection.query(
-              "DROP VIEW loginDriver",
-              [email],
-              (err, rows) => {
-                // When done with the connection , release it
-                connection.release();
-        
-                if (!err) {
-                  pool.getConnection((err, connection) => {
-                    if (err) throw err; // not  connected
-                    console.log("connected as ID " + connection.threadId);
-                
-                    //user the connection
-                    connection.query(
-                      "SELECT * FROM driver WHERE email = ?",
-                      [email],
-                      (err, rows) => {
-                        // When done with the connection , release it
-                        connection.release();
-                
-                        if (!err) {
-                          fetchWay = (x) => x.password === password;
-                          row = rows.filter(fetchWay);
-                
-                          res.render("logindriver");
-                          if (row.length != 0) {
-                            driverId = row[0].id;
-                            console.log(id);
-                            res.redirect("/driverMenu");
-                          }
-                        } else {
-                          console.log(err);
+            connection.query("DROP VIEW loginDriver", [email], (err, rows) => {
+              // When done with the connection , release it
+              connection.release();
+
+              if (!err) {
+                pool.getConnection((err, connection) => {
+                  if (err) throw err; // not  connected
+                  console.log("connected as ID " + connection.threadId);
+
+                  //user the connection
+                  connection.query(
+                    "SELECT * FROM driver WHERE email = ?",
+                    [email],
+                    (err, rows) => {
+                      // When done with the connection , release it
+                      connection.release();
+
+                      if (!err) {
+                        fetchWay = (x) => x.password === password;
+                        row = rows.filter(fetchWay);
+
+                        res.render("logindriver");
+                        if (row.length != 0) {
+                          driverId = row[0].id;
+                          console.log(id);
+                          res.redirect("/driverMenu");
                         }
-                        console.log(rows);
-                        console.log("The data from user table: \n", rows);
+                      } else {
+                        console.log(err);
                       }
-                    );
-                  });
-                } else {
-                  console.log(err);
-                }
-                console.log(rows);
-                console.log("The data from user table: \n", rows);
+                      console.log(rows);
+                      console.log("The data from user table: \n", rows);
+                    }
+                  );
+                });
+              } else {
+                console.log(err);
               }
-            );
+              console.log(rows);
+              console.log("The data from user table: \n", rows);
+            });
           });
         } else {
           console.log(err);
@@ -530,7 +526,7 @@ exports.rideDetail = (req, res) => {
 
     //user the connection
     connection.query(
-      "SELECT * FROM ride where driverId = ?",
+      "SELECT * FROM ride where driverId = ? ORDER BY id",
       [driverId],
       (err, rows) => {
         // When done with the connection , release it
@@ -577,10 +573,10 @@ exports.findRideDetail = (req, res) => {
       "CREATE VIEW rideDetail AS SELECT * FROM ride where driverId = ? AND pickupLocation LIKE ? AND dropLocation LIKE ? AND paymentMode LIKE ? AND date LIKE ?",
       [
         driverId,
-        '%' + pickupLocationDriver + '%',
-        '%' + dropLocationDriver + '%',
-        '%' + payment + '%',
-        '%' + dateSelection + '%',
+        "%" + pickupLocationDriver + "%",
+        "%" + dropLocationDriver + "%",
+        "%" + payment + "%",
+        "%" + dateSelection + "%",
       ],
       (err, rows) => {
         // When done with the connection , release it
@@ -603,15 +599,15 @@ exports.findRideDetail = (req, res) => {
               "DROP VIEW rideDetail",
               [
                 driverId,
-                '%' + pickupLocationDriver + '%',
-                '%' + dropLocationDriver + '%',
-                '%' + payment + '%',
-                '%' + dateSelection + '%',
+                "%" + pickupLocationDriver + "%",
+                "%" + dropLocationDriver + "%",
+                "%" + payment + "%",
+                "%" + dateSelection + "%",
               ],
               (err, rows) => {
                 // When done with the connection , release it
                 connection.release();
-        
+
                 if (!err) {
                   pool.getConnection((err, connection) => {
                     if (err) throw err; // not  connected
@@ -626,24 +622,24 @@ exports.findRideDetail = (req, res) => {
                     }
                     //user the connection
                     connection.query(
-                      "SELECT * FROM ride where driverId = ? AND pickupLocation LIKE ? AND dropLocation LIKE ? AND paymentMode LIKE ? AND date LIKE ?",
+                      "SELECT * FROM ride where driverId = ? AND pickupLocation LIKE ? AND dropLocation LIKE ? AND paymentMode LIKE ? AND date LIKE ? ORDER BY id",
                       [
                         driverId,
-                        '%' + pickupLocationDriver + '%',
-                        '%' + dropLocationDriver + '%',
-                        '%' + payment + '%',
-                        '%' + dateSelection + '%',
+                        "%" + pickupLocationDriver + "%",
+                        "%" + dropLocationDriver + "%",
+                        "%" + payment + "%",
+                        "%" + dateSelection + "%",
                       ],
                       (err, rows) => {
                         // When done with the connection , release it
                         connection.release();
-                
+
                         if (!err) {
                           res.render("ridedetails", { rows });
                         } else {
                           console.log(err);
                         }
-                
+
                         console.log("The data from user table: \n", rows);
                       }
                     );
@@ -651,7 +647,7 @@ exports.findRideDetail = (req, res) => {
                 } else {
                   console.log(err);
                 }
-        
+
                 console.log("The data from user table: \n", rows);
               }
             );
@@ -673,7 +669,7 @@ exports.ratingDetail = (req, res) => {
 
     //user the connection
     connection.query(
-      "SELECT * FROM ride where driverId = ?",
+      "SELECT * FROM ride where driverId = ? ORDER BY id",
       [driverId],
       (err, rows) => {
         // When done with the connection , release it
@@ -708,7 +704,7 @@ exports.findRatingDetail = (req, res) => {
           pool.getConnection((err, connection) => {
             if (err) throw err; // not  connected
             console.log("connected as ID " + connection.threadId);
-        
+
             //user the connection
             connection.query(
               "DROP VIEW ratingDetail",
@@ -716,26 +712,26 @@ exports.findRatingDetail = (req, res) => {
               (err, rows) => {
                 // When done with the connection , release it
                 connection.release();
-        
+
                 if (!err) {
                   pool.getConnection((err, connection) => {
                     if (err) throw err; // not  connected
                     console.log("connected as ID " + connection.threadId);
-                
+
                     //user the connection
                     connection.query(
-                      "SELECT * FROM ride where driverId = ? AND rating = ?",
+                      "SELECT * FROM ride where driverId = ? AND rating = ? ORDER BY id",
                       [driverId, ratingCard],
                       (err, rows) => {
                         // When done with the connection , release it
                         connection.release();
-                
+
                         if (!err) {
                           res.render("ratingdetails", { rows });
                         } else {
                           console.log(err);
                         }
-                
+
                         console.log("The data from user table: \n", rows);
                       }
                     );
@@ -743,7 +739,7 @@ exports.findRatingDetail = (req, res) => {
                 } else {
                   console.log(err);
                 }
-        
+
                 console.log("The data from user table: \n", rows);
               }
             );
@@ -1019,7 +1015,7 @@ exports.rideView = (req, res) => {
   const time = "time";
   const driverName = "DriverName";
   const driverCarNo = "DriverCarNo.";
-  
+
   pool.getConnection((err, connection) => {
     if (err) throw err; // not  connected
     console.log("connected as ID " + connection.threadId);
@@ -1033,53 +1029,51 @@ exports.rideView = (req, res) => {
         connection.release();
 
         if (!err) {
-
           pool.getConnection((err, connection) => {
             if (err) throw err; // not  connected
             console.log("connected as ID " + connection.threadId);
-        
-            //user the connection
-            connection.query(
-              "DROP VIEW rideViews",
-              [id],
-              (err, rows) => {
-                // When done with the connection , release it
-                connection.release();
-        
-                if (!err) {
-                  pool.getConnection((err, connection) => {
-                    if (err) throw err; // not  connected
-                    console.log("connected as ID " + connection.threadId);
-                
-                    //user the connection
-                    connection.query(
-                      "SELECT * FROM address where userId = ?",
-                      [id],
-                      (err, rows) => {
-                        // When done with the connection , release it
-                        connection.release();
-                
-                        if (!err) {
-                          res.render("bookride", { rows, cost, time, driverName, driverCarNo });
-                        } else {
-                          console.log(err);
-                        }
-                
-                        console.log("The data from user table: \n", rows);
-                      }
-                    );
-                  });
-                } else {
-                  console.log(err);
-                }
-        
-                console.log("The data from user table: \n", rows);
-              }
-            );
-          });
-          
 
-          
+            //user the connection
+            connection.query("DROP VIEW rideViews", [id], (err, rows) => {
+              // When done with the connection , release it
+              connection.release();
+
+              if (!err) {
+                pool.getConnection((err, connection) => {
+                  if (err) throw err; // not  connected
+                  console.log("connected as ID " + connection.threadId);
+
+                  //user the connection
+                  connection.query(
+                    "SELECT * FROM address where userId = ?",
+                    [id],
+                    (err, rows) => {
+                      // When done with the connection , release it
+                      connection.release();
+
+                      if (!err) {
+                        res.render("bookride", {
+                          rows,
+                          cost,
+                          time,
+                          driverName,
+                          driverCarNo,
+                        });
+                      } else {
+                        console.log(err);
+                      }
+
+                      console.log("The data from user table: \n", rows);
+                    }
+                  );
+                });
+              } else {
+                console.log(err);
+              }
+
+              console.log("The data from user table: \n", rows);
+            });
+          });
         } else {
           console.log(err);
         }
@@ -1088,7 +1082,6 @@ exports.rideView = (req, res) => {
       }
     );
   });
-  
 };
 let driverName;
 let driverCarNo;
@@ -1199,7 +1192,6 @@ exports.bookRide = (req, res) => {
           connection.release();
 
           if (!err) {
-
             driverName = driverRow[0].name;
             driverCarNo = driverRow[0].taxiNo;
             driverCarType = driverRow[0].carType;
@@ -1300,17 +1292,13 @@ exports.bookRide = (req, res) => {
 
                               //user the connection
                               connection.query(
-                                "UPDATE driver SET userId = ? WHERE id = ?",
-                                [id, driverId1],
+                                "UPDATE driver SET userId = ? AND rating = ? WHERE id = ?",
+                                [id, driverId1, ratingCard],
                                 (err, rows) => {
                                   // When done with the connection , release it
                                   connection.release();
 
                                   if (!err) {
-                                    const cost = "cost";
-                                    const time = "time";
-                                    const driverName = "DriverName";
-                                    const driverCarNo = "DriverCarNo.";
                                     pool.getConnection((err, connection) => {
                                       if (err) throw err; // not  connected
                                       console.log(
@@ -1319,27 +1307,97 @@ exports.bookRide = (req, res) => {
 
                                       //user the connection
                                       connection.query(
-                                        "SELECT * FROM address where userId = ?",
-                                        [id],
+                                        "SELECT AVG(rating) FROM ride WHERE driverId = ?",
+                                        [driverId1],
                                         (err, rows) => {
                                           // When done with the connection , release it
                                           connection.release();
 
                                           if (!err) {
-                                            res.render("bookride", {
-                                              rows,
-                                              cost,
-                                              time,
-                                              driverName,
-                                              driverCarNo,
-                                            });
+                                            const avgRating = rows[0]['AVG(rating)']
+                                            pool.getConnection(
+                                              (err, connection) => {
+                                                if (err) throw err; // not  connected
+                                                console.log(
+                                                  "connected as ID " +
+                                                    connection.threadId
+                                                );
+
+                                                //user the connection
+                                                connection.query(
+                                                  "UPDATE driver SET rating = ? WHERE id = ?",
+                                                  [avgRating, driverId1],
+                                                  (err, rows) => {
+                                                    // When done with the connection , release it
+                                                    connection.release();
+
+                                                    if (!err) {
+                                                      const cost = "cost";
+                                                      const time = "time";
+                                                      const driverName =
+                                                        "DriverName";
+                                                      const driverCarNo =
+                                                        "DriverCarNo.";
+                                                      pool.getConnection(
+                                                        (err, connection) => {
+                                                          if (err) throw err; // not  connected
+                                                          console.log(
+                                                            "connected as ID " +
+                                                              connection.threadId
+                                                          );
+
+                                                          //user the connection
+                                                          connection.query(
+                                                            "SELECT * FROM address where userId = ?",
+                                                            [id],
+                                                            (err, rows) => {
+                                                              // When done with the connection , release it
+                                                              connection.release();
+
+                                                              if (!err) {
+                                                                res.render(
+                                                                  "bookride",
+                                                                  {
+                                                                    rows,
+                                                                    cost,
+                                                                    time,
+                                                                    driverName,
+                                                                    driverCarNo,
+                                                                  }
+                                                                );
+                                                              } else {
+                                                                console.log(
+                                                                  err
+                                                                );
+                                                              }
+
+                                                              console.log(
+                                                                "The data from user table: \n",
+                                                                rows
+                                                              );
+                                                            }
+                                                          );
+                                                        }
+                                                      );
+                                                    } else {
+                                                      console.log(err);
+                                                    }
+
+                                                    console.log(
+                                                      "The data from user table: \n",
+                                                      rows
+                                                    );
+                                                  }
+                                                );
+                                              }
+                                            );
                                           } else {
                                             console.log(err);
                                           }
 
                                           console.log(
-                                            "The data from user table: \n",
-                                            rows
+                                            "The data from RATING table: \n",
+                                            rows[0]['AVG(rating)']
                                           );
                                         }
                                       );
@@ -1388,7 +1446,7 @@ exports.rideHistory = (req, res) => {
 
     //user the connection
     connection.query(
-      "SELECT * FROM ride where userId = ?",
+      "SELECT * FROM ride where userId = ? ORDER BY id",
       [id],
       (err, rows) => {
         // When done with the connection , release it
@@ -1415,7 +1473,6 @@ exports.findRideHistory = (req, res) => {
     date,
   } = req.body;
 
-
   pool.getConnection((err, connection) => {
     if (err) throw err; // not  connected
     console.log("connected as ID " + connection.threadId);
@@ -1429,30 +1486,26 @@ exports.findRideHistory = (req, res) => {
     }
 
     let carType = "";
-    if(carTypeSelection == 1){
+    if (carTypeSelection == 1) {
       carType = "Sedan";
-    }
-    else if (carTypeSelection == 2){
+    } else if (carTypeSelection == 2) {
       carType = "Auto";
-    }
-    else if (carTypeSelection == 3){
+    } else if (carTypeSelection == 3) {
       carType = "Pool";
-    }
-    else if (carTypeSelection == 4){
+    } else if (carTypeSelection == 4) {
       carType = "Mini";
     }
 
     //user the connection
     connection.query(
-      "SELECT * FROM ride WHERE pickupLocation LIKE ? AND dropLocation LIKE ? AND paymentMode LIKE ? AND taxiType LIKE ? AND date LIKE ? AND userID = ?",
+      "SELECT * FROM ride WHERE pickupLocation LIKE ? AND dropLocation LIKE ? AND paymentMode LIKE ? AND taxiType LIKE ? AND date LIKE ? AND userID = ? ORDER BY id",
       [
-        
-        '%' + pickupLocationUser + '%',
-        '%' + dropLocationUser + '%',
-        '%' + payment + '%',
-        '%' + carType + '%',
-        '%' + date + '%',
-        id
+        "%" + pickupLocationUser + "%",
+        "%" + dropLocationUser + "%",
+        "%" + payment + "%",
+        "%" + carType + "%",
+        "%" + date + "%",
+        id,
       ],
       (err, rows) => {
         // When done with the connection , release it
@@ -1468,7 +1521,7 @@ exports.findRideHistory = (req, res) => {
       }
     );
   });
-}
+};
 
 exports.paymentHistory = (req, res) => {
   pool.getConnection((err, connection) => {
@@ -1477,7 +1530,7 @@ exports.paymentHistory = (req, res) => {
 
     //user the connection
     connection.query(
-      "SELECT * FROM payment where userId = ?",
+      "SELECT * FROM payment where userId = ? ORDER BY id",
       [id],
       (err, rows) => {
         // When done with the connection , release it
@@ -1496,53 +1549,49 @@ exports.paymentHistory = (req, res) => {
 };
 
 exports.findPaymentHistory = (req, res) => {
-
-  const {searchSelection, inputValue} = req.body;
+  const { searchSelection, inputValue } = req.body;
   pool.getConnection((err, connection) => {
     if (err) throw err; // not  connected
     console.log("connected as ID " + connection.threadId);
 
-    if(searchSelection == 1){
+    if (searchSelection == 1) {
       //user the connection
-    connection.query(
-      "SELECT * FROM payment WHERE userId = ? AND paymentMode = ?",
-      [id, inputValue],
-      (err, rows) => {
-        // When done with the connection , release it
-        connection.release();
-
-        if (!err) {
-          res.render("paymenthistory", { rows });
-        } else {
-          console.log(err);
-        }
-
-        console.log("The data from user table: \n", rows);
-      }
-    );
-
-    }
-    else if (searchSelection == 2){
       connection.query(
-        "SELECT * FROM payment WHERE userId = ? AND date = ?",
+        "SELECT * FROM payment WHERE userId = ? AND paymentMode = ? ORDER BY id",
         [id, inputValue],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
-  
+
           if (!err) {
             res.render("paymenthistory", { rows });
           } else {
             console.log(err);
           }
-  
+
+          console.log("The data from user table: \n", rows);
+        }
+      );
+    } else if (searchSelection == 2) {
+      connection.query(
+        "SELECT * FROM payment WHERE userId = ? AND date = ? ORDER BY id",
+        [id, inputValue],
+        (err, rows) => {
+          // When done with the connection , release it
+          connection.release();
+
+          if (!err) {
+            res.render("paymenthistory", { rows });
+          } else {
+            console.log(err);
+          }
+
           console.log("The data from user table: \n", rows);
         }
       );
     }
   });
-    
-}
+};
 
 exports.loginPage = (req, res) => {
   res.render("login");
@@ -1603,7 +1652,7 @@ exports.createAddress = (req, res) => {
       console.log("title");
       connection.query(
         "SELECT * FROM address WHERE title LIKE ? AND userId = ?",
-        ['%' + searchTerm + '%', id],
+        ["%" + searchTerm + "%", id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
@@ -1621,7 +1670,7 @@ exports.createAddress = (req, res) => {
     if (addressCard == 2) {
       connection.query(
         "SELECT * FROM address WHERE locality LIKE ? AND userId = ?",
-        ['%' + searchTerm + '%', id],
+        ["%" + searchTerm + "%", id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
@@ -1639,7 +1688,7 @@ exports.createAddress = (req, res) => {
     if (addressCard == 3) {
       connection.query(
         "SELECT * FROM address WHERE city LIKE ? AND userId = ?",
-        ['%' + searchTerm + '%', id],
+        ["%" + searchTerm + "%", id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
@@ -1657,7 +1706,7 @@ exports.createAddress = (req, res) => {
     if (addressCard == 4) {
       connection.query(
         "SELECT * FROM address WHERE pincode LIKE ? AND userId = ?",
-        ['%' + searchTerm + '%',  id],
+        ["%" + searchTerm + "%", id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
@@ -1675,7 +1724,7 @@ exports.createAddress = (req, res) => {
     if (addressCard == 5) {
       connection.query(
         "SELECT * FROM address WHERE flatNo LIKE ? AND userId = ?",
-        ['%' + searchTerm + '%', id],
+        ["%" + searchTerm + "%", id],
         (err, rows) => {
           // When done with the connection , release it
           connection.release();
